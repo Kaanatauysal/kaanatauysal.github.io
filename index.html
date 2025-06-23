@@ -3,39 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <title>İyi ki Doğdun Kene!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
+      margin: 0; padding: 0; height: 100%; overflow: hidden;
       font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: black;
       color: #fff;
       position: relative;
-      background: #000;
     }
     #background-video {
       position: fixed;
-      right: 0;
-      bottom: 0;
-      min-width: 100%;
-      min-height: 100%;
-      z-index: -1;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
       object-fit: cover;
+      z-index: -1;
+      opacity: 1;
+      background: black;
     }
     .content {
       position: relative;
-      z-index: 1;
+      z-index: 10;
       text-align: center;
       padding: 50px;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0,0,0,0.3);
+      user-select: none;
+    }
+    /* Neon yazı stili */
+    h1, p, .japan {
+      color: #ff6f61;
+      text-shadow:
+        0 0 5px #ff6f61,
+        0 0 10px #ff6f61,
+        0 0 20px #ff6f61,
+        0 0 40px #ff6f61;
     }
     h1 {
       font-size: 3em;
-      color: #ff6f61;
+      margin-bottom: 0.3em;
     }
     p {
       font-size: 1.5em;
+      margin: 0.3em 0;
     }
     .japan {
       font-size: 2em;
@@ -48,12 +58,12 @@
       75% { transform: rotate(-2deg); }
     }
 
-    /* Ses butonu stili */
+    /* Ses butonu */
     #mute-btn {
       position: fixed;
       top: 20px;
       right: 20px;
-      z-index: 10;
+      z-index: 20;
       background: rgba(0,0,0,0.6);
       border: none;
       color: #fff;
@@ -69,13 +79,13 @@
       transform: scale(1.1) rotate(10deg);
     }
 
-    /* Made by neon efektli alt ortada */
+    /* Neon footer */
     #footer-text {
       position: fixed;
       bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 1em;
+      font-size: 1.2em;
       color: #ff6f61;
       font-weight: bold;
       text-shadow:
@@ -89,6 +99,7 @@
       align-items: center;
       gap: 6px;
       font-family: 'Comic Sans MS', cursive, sans-serif;
+      z-index: 20;
     }
     #footer-text .heart {
       color: #ff2d55;
@@ -96,7 +107,7 @@
         0 0 5px #ff2d55,
         0 0 10px #ff2d55,
         0 0 20px #ff2d55;
-      font-size: 1.2em;
+      font-size: 1.4em;
       line-height: 1;
       user-select: none;
     }
@@ -104,49 +115,77 @@
 </head>
 <body>
 
-  <!-- Arka Plan Videosu -->
-  <video autoplay muted loop id="background-video">
+  <!-- Arka plan video -->
+  <video autoplay muted loop id="background-video" playsinline>
     <source src="jujutsu-op.mp4" type="video/mp4" />
     Tarayıcınız video etiketini desteklemiyor.
   </video>
 
-  <!-- Ses Açma/Kapama Butonu -->
+  <!-- Ses aç/kapa butonu -->
   <button id="mute-btn" aria-label="Sesi aç/kapat">🔇</button>
 
-  <!-- Metin İçeriği -->
+  <!-- İçerik -->
   <div class="content">
     <h1>🎉 İyi ki doğdun Kene! 🎂</h1>
-    <p>İyi ki benim kardeşim olmuşsun kenem nice yıllara</p>
+    <p>İyi ki benim kardeşim olmuşsun nice yıllara kenem!</p>
     <p>Seninle nice bizli, neşeli, kahkahalı, <strong>anime dolu</strong> günlere!</p>
     <p class="japan">🎌 Nice Bizli Japonyalara! 🇯🇵</p>
   </div>
 
-  <!-- Made by neon efektli yazı -->
+  <!-- Neon made by -->
   <div id="footer-text">
     made by emirhankulu <span class="heart">❤</span>
   </div>
+
+  <!-- confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
     const video = document.getElementById('background-video');
     const muteBtn = document.getElementById('mute-btn');
 
-    // Video loop garantisi
+    // Ses butonu işlevi
+    muteBtn.addEventListener('click', () => {
+      if (video.muted) {
+        video.muted = false;
+        muteBtn.textContent = '🔊';
+      } else {
+        video.muted = true;
+        muteBtn.textContent = '🔇';
+      }
+    });
+
+    // Video loop garantisi (gerekirse)
     video.addEventListener('ended', () => {
       video.currentTime = 0;
       video.play();
     });
 
-    // Ses butonu işlevi
-    muteBtn.addEventListener('click', () => {
-      if (video.muted) {
-        video.muted = false;
-        muteBtn.textContent = '🔊'; // Sesi açık ikon
-      } else {
-        video.muted = true;
-        muteBtn.textContent = '🔇'; // Sessiz ikon
-      }
-    });
-  </script>
+    // Sayfa açılınca konfeti patlat
+    window.onload = () => {
+      const duration = 4 * 1000; // 4 saniye konfeti
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 20 };
 
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      (function frame() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) return;
+
+        const particleCount = 50 * (timeLeft / duration);
+        // konfeti patlat
+        confetti(Object.assign({}, defaults, {
+          particleCount,
+          origin: { x: randomInRange(0, 1), y: Math.random() - 0.2 }
+        }));
+
+        requestAnimationFrame(frame);
+      })();
+    };
+  </script>
 </body>
 </html>
