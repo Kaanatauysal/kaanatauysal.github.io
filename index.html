@@ -5,39 +5,37 @@
   <title>İyi ki Doğdun Kene!</title>
   <style>
     body, html {
-      margin: 0; padding: 0; height: 100%; overflow: hidden;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
       font-family: 'Comic Sans MS', cursive, sans-serif;
-      background: black;
       color: #fff;
       position: relative;
     }
     #background-video {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
       z-index: -1;
-      background: black;
+      object-fit: cover;
     }
     .content {
       position: relative;
-      z-index: 10;
+      z-index: 1;
       text-align: center;
       padding: 50px;
-      background-color: rgba(0,0,0,0.3);
-      user-select: none;
+      background-color: rgba(0, 0, 0, 0.5);
     }
-    h1, p, .japan {
+    h1 {
+      font-size: 3em;
       color: #ff6f61;
-      text-shadow:
-        0 0 5px #ff6f61,
-        0 0 10px #ff6f61,
-        0 0 20px #ff6f61,
-        0 0 40px #ff6f61;
     }
-    h1 { font-size: 3em; margin-bottom: 0.3em; }
-    p { font-size: 1.5em; margin: 0.3em 0; }
+    p {
+      font-size: 1.5em;
+    }
     .japan {
       font-size: 2em;
       margin-top: 30px;
@@ -48,32 +46,37 @@
       25% { transform: rotate(2deg); }
       75% { transform: rotate(-2deg); }
     }
+
+    /* Ses butonu stili - yukarı sağa taşıdım */
     #mute-btn {
       position: fixed;
-      top: 20px; right: 20px;
-      z-index: 20;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
       background: rgba(0,0,0,0.6);
       border: none;
       color: #fff;
-      font-size: 1.5em;
+      font-size: 1.2em;
       padding: 10px 15px;
       cursor: pointer;
       border-radius: 5px;
       user-select: none;
-      transition: transform 0.3s ease, background-color 0.3s ease;
+      transition: 0.3s ease;
     }
     #mute-btn:hover {
-      background-color: rgba(255,111,97,0.8);
+      background: rgba(255,111,97,0.8);
       transform: scale(1.1) rotate(10deg);
     }
+
+    /* Made by neon efektli alt orta */
     #footer-text {
       position: fixed;
       bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 1.2em;
-      color: #ff6f61;
+      font-size: 1em;
       font-weight: bold;
+      color: #ff6f61;
       text-shadow:
         0 0 5px #ff6f61,
         0 0 10px #ff6f61,
@@ -85,7 +88,7 @@
       align-items: center;
       gap: 6px;
       font-family: 'Comic Sans MS', cursive, sans-serif;
-      z-index: 20;
+      z-index: 10;
     }
     #footer-text .heart {
       color: #ff2d55;
@@ -93,7 +96,7 @@
         0 0 5px #ff2d55,
         0 0 10px #ff2d55,
         0 0 20px #ff2d55;
-      font-size: 1.4em;
+      font-size: 1.2em;
       line-height: 1;
       user-select: none;
     }
@@ -101,13 +104,16 @@
 </head>
 <body>
 
-  <video autoplay muted loop id="background-video" playsinline>
+  <!-- Arka Plan Videosu -->
+  <video autoplay muted loop id="background-video">
     <source src="jujutsu-op.mp4" type="video/mp4" />
     Tarayıcınız video etiketini desteklemiyor.
   </video>
 
+  <!-- Ses Açma/Kapama Butonu -->
   <button id="mute-btn" aria-label="Sesi aç/kapat">🔇</button>
 
+  <!-- Metin İçeriği -->
   <div class="content">
     <h1>🎉 İyi ki doğdun Kene! 🎂</h1>
     <p>İyi ki benim kardeşim olmuşsun lan!</p>
@@ -115,27 +121,30 @@
     <p class="japan">🎌 Nice Bizli Japonyalara! 🇯🇵</p>
   </div>
 
-  <div id="footer-text">
-    made by emirhankulu <span class="heart">❤</span>
-  </div>
+  <!-- Made by neon efekti -->
+  <div id="footer-text">made by emirhankulu <span class="heart">❤</span></div>
 
   <script>
     const video = document.getElementById('background-video');
     const muteBtn = document.getElementById('mute-btn');
 
-    video.addEventListener('error', (e) => {
-      console.error("Video yüklenirken hata oluştu:", e);
-      alert("Video yüklenemedi. Dosya yolunu ve adını kontrol et.");
+    // Video loop garantisi
+    video.addEventListener('ended', () => {
+      video.currentTime = 0;
+      video.play();
     });
 
-    video.addEventListener('canplay', () => {
-      console.log("Video oynatılabilir durumda.");
-    });
-
+    // Ses butonu işlevi
     muteBtn.addEventListener('click', () => {
-      video.muted = !video.muted;
-      muteBtn.textContent = video.muted ? '🔇' : '🔊';
+      if (video.muted) {
+        video.muted = false;
+        muteBtn.textContent = '🔊'; // Sesi açık ikon
+      } else {
+        video.muted = true;
+        muteBtn.textContent = '🔇'; // Sessiz ikon
+      }
     });
   </script>
+
 </body>
 </html>
