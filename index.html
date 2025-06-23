@@ -12,6 +12,7 @@
       font-family: 'Comic Sans MS', cursive, sans-serif;
       color: #fff;
     }
+
     #background-video {
       position: fixed;
       right: 0;
@@ -21,6 +22,7 @@
       z-index: -1;
       object-fit: cover;
     }
+
     .content {
       position: relative;
       z-index: 1;
@@ -28,23 +30,39 @@
       padding: 50px;
       background-color: rgba(0, 0, 0, 0.5);
     }
+
     h1 {
       font-size: 3em;
-      color: #ff6f61;
+      color: #fff;
+      text-shadow: 0 0 5px #f0f, 0 0 10px #f0f, 0 0 20px #f0f, 0 0 40px #0ff;
+      animation: neon-glow 1.5s infinite alternate;
     }
+
+    @keyframes neon-glow {
+      from {
+        text-shadow: 0 0 5px #f0f, 0 0 10px #f0f, 0 0 20px #f0f, 0 0 40px #0ff;
+      }
+      to {
+        text-shadow: 0 0 10px #fff, 0 0 20px #ff00ff, 0 0 30px #0ff, 0 0 60px #0ff;
+      }
+    }
+
     p {
       font-size: 1.5em;
     }
+
     .japan {
       font-size: 2em;
       margin-top: 30px;
       animation: wave 2s infinite;
     }
+
     @keyframes wave {
       0%, 100% { transform: rotate(0deg); }
       25% { transform: rotate(2deg); }
       75% { transform: rotate(-2deg); }
     }
+
     #play-sound {
       position: absolute;
       top: 20px;
@@ -62,7 +80,7 @@
 </head>
 <body>
 
-  <!-- Ses Aç Butonu -->
+  <!-- Sesi Aç Butonu -->
   <button id="play-sound">🔊 Sesi Aç</button>
 
   <!-- Arka Plan Video -->
@@ -74,12 +92,15 @@
   <!-- Metin İçerik -->
   <div class="content">
     <h1>🎉 İyi ki doğdun Kene! 🎂</h1>
-    <p>İyi ki benim kardeşim olmuşsun nice senelere🎂</p>
+    <p>İyi ki benim kardeşim olmuşsun nice seneler kenem</p>
     <p>Seninle nice bizli, neşeli, kahkahalı, <strong>anime dolu</strong> günlere!</p>
     <p class="japan">🎌 Nice Bizli Japonyalara! 🇯🇵</p>
   </div>
 
+  <!-- Konfeti Scripti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
+    // Ses butonu
     const btn = document.getElementById("play-sound");
     const video = document.getElementById("background-video");
 
@@ -88,6 +109,15 @@
       video.play();
       btn.style.display = "none";
     });
+
+    // Konfeti patlat (sayfa açıldığında)
+    setTimeout(() => {
+      confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
+    }, 1000);
   </script>
 
 </body>
