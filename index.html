@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>İyi ki Doğdun Kene!</title>
   <style>
     body, html {
@@ -45,13 +45,29 @@
       25% { transform: rotate(2deg); }
       75% { transform: rotate(-2deg); }
     }
+
+    /* Mobil uyumluluk için */
+    @media (max-width: 600px) {
+      .content {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 2em;
+      }
+      p {
+        font-size: 1.2em;
+      }
+      .japan {
+        font-size: 1.5em;
+      }
+    }
   </style>
 </head>
 <body>
 
   <!-- Arka Plan Videosu -->
-  <video autoplay muted loop id="background-video">
-    <source src="jujutsu-op.mp4" type="video/mp4">
+  <video autoplay muted loop playsinline id="background-video">
+    <source src="jujutsu-op.mp4" type="video/mp4" />
     Tarayıcınız video etiketini desteklemiyor.
   </video>
 
