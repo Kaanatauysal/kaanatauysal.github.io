@@ -29,9 +29,15 @@
       padding: 50px;
       background-color: rgba(0, 0, 0, 0.5);
     }
+    h1, p, .japan {
+      color: #ff6f61;
+      text-shadow:
+        0 0 5px #ff6f61,
+        0 0 10px #ff6f61,
+        0 0 20px #ff6f61;
+    }
     h1 {
       font-size: 3em;
-      color: #ff6f61;
     }
     p {
       font-size: 1.5em;
@@ -47,7 +53,6 @@
       75% { transform: rotate(-2deg); }
     }
 
-    /* Ses butonu stili - yukarı sağa taşıdım */
     #mute-btn {
       position: fixed;
       top: 20px;
@@ -68,7 +73,6 @@
       transform: scale(1.1) rotate(10deg);
     }
 
-    /* Made by neon efektli alt orta */
     #footer-text {
       position: fixed;
       bottom: 10px;
@@ -104,16 +108,13 @@
 </head>
 <body>
 
-  <!-- Arka Plan Videosu -->
   <video autoplay muted loop id="background-video">
     <source src="jujutsu-op.mp4" type="video/mp4" />
     Tarayıcınız video etiketini desteklemiyor.
   </video>
 
-  <!-- Ses Açma/Kapama Butonu -->
   <button id="mute-btn" aria-label="Sesi aç/kapat">🔇</button>
 
-  <!-- Metin İçeriği -->
   <div class="content">
     <h1>🎉 İyi ki doğdun Kene! 🎂</h1>
     <p>İyi ki benim kardeşim olmuşsun lan!</p>
@@ -121,27 +122,26 @@
     <p class="japan">🎌 Nice Bizli Japonyalara! 🇯🇵</p>
   </div>
 
-  <!-- Made by neon efekti -->
-  <div id="footer-text">made by emirhankulu <span class="heart">❤</span></div>
+  <div id="footer-text">
+    made by emirhankulu <span class="heart">❤</span>
+  </div>
 
   <script>
     const video = document.getElementById('background-video');
     const muteBtn = document.getElementById('mute-btn');
 
-    // Video loop garantisi
     video.addEventListener('ended', () => {
       video.currentTime = 0;
       video.play();
     });
 
-    // Ses butonu işlevi
     muteBtn.addEventListener('click', () => {
       if (video.muted) {
         video.muted = false;
-        muteBtn.textContent = '🔊'; // Sesi açık ikon
+        muteBtn.textContent = '🔊';
       } else {
         video.muted = true;
-        muteBtn.textContent = '🔇'; // Sessiz ikon
+        muteBtn.textContent = '🔇';
       }
     });
   </script>
